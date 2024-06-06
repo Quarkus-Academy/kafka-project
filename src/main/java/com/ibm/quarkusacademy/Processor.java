@@ -13,14 +13,15 @@ public class Processor {
 
     @Incoming("scheduled-in")
     @Outgoing("uppercase-out")
-    public Message<String> consumeAndSendMessage (Message<String> message) {
+    public String consumeAndSendMessage (Message<String> message) {
 
         String event = message.getPayload(); 
         Log.infof("Incoming scheduled event: %s", event);
 
         String uppercaseEvent = event.toUpperCase();
-        Log.infof("Outgoing uppercase event: %s", event);
-        return Message.of(uppercaseEvent);
+        Log.infof("Outgoing uppercase event: %s", uppercaseEvent);
+        message.ack();
+        return uppercaseEvent;
 
     }
 
